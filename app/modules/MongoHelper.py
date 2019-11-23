@@ -98,4 +98,4 @@ def DB_fetch_clubs(db, col, parameter={}):
     result = []
     for document in cursor:
         result.append(document)
-    return document
+    return result
