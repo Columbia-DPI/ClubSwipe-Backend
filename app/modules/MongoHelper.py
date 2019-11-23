@@ -40,9 +40,9 @@ def DB_login_user(db, col, email, password, statusCode):
     #Connect to DB and insert, and then change the values of result and status code accordingly
     result = 0
     cursor = col.find({'email': email})
-    
+
     id_save = 00000
-    
+
     statusCode = "2" #email doesnt exist
     for x in cursor:
         # print("iterating through cursor")
@@ -56,7 +56,7 @@ def DB_login_user(db, col, email, password, statusCode):
             else:
                 statusCode = "1"# wrong pass
         break
-    
+
     resultJson = jsonify({"valid" : result, "status":statusCode, 'id':id_save})
 
     return resultJson
@@ -84,7 +84,7 @@ def DB_register_user(db, col, id, email, password, address, bbl, statusCode):
     print("user inserted into database")
     #test sendgrind
     Communications.send_email(key, emailList, 'Successful Registration', 'Thank you for signing up to HousingAlertNYC!')
-    
+
     resultJson = jsonify({"valid" : result, "status" : statusCode})
     return resultJson
 

@@ -18,7 +18,7 @@ def login():
 	statusCode = "3" # Different statuses would symbolise different types of issues, while 0 would imply a successful login - used to update the frontend
 
 	resultJson = MongoHelper.DB_login_user(db, usercol, email, password, statusCode)
-    
+
 	print(resultJson)
 
 	'''
@@ -38,8 +38,21 @@ def signup():
 
 @app.route("/api/fetchAllClubs", methods=["GET"])
 def fetch_all_clubs():
-	payload = MongoHelper.fetchClubs()
+	payload = MongoHelper.DB_fetch_clubs(db, clubcol)
+	print(payload)
 	return jsonify(payload)
+
+@app.route("/api/searchClubs", methods=["POST"])
+def search_clubs():
+	payload=MongoHelper.DB_fetch_clubs(db, clubcol)
+	post_data = request.get_json()
+	keyword=post_data["keywords"]
+	searched_clubs=[]
+	for club in payload:
+		for key in keyword:
+			if keyword[key].lower() in club["name"].lower():
+				searched_clubs.append(club)
+	return searched_clubs
 
 @app.route("/api/fetchCuratedClubs", methods=["POST"])
 def fetch_curated_clubs():
@@ -72,4 +85,3 @@ def render_index():
 
 if __name__ == "__main__":
     app.run()
-
