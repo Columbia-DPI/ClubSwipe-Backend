@@ -60,7 +60,7 @@ def fetch_curated_clubs():
 '''
 @app.route("/api/addClub", methods=["POST"])
 def add_club():
-	post_data = request.get_json()
+	post_data = request.get_json(force=True)
 	payload = post_data["club_data"]
 	MongoHelper.DB_insert_club(db, clubcol, payload)
 	return jsonify({"valid":True})
