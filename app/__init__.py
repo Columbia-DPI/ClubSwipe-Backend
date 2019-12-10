@@ -47,12 +47,12 @@ def fetch_curated_clubs():
 	# Do some ML stuff here
 	vector = request.get_json(force=True)
 	
-	#testVector = {"active": '0.7', "governing": '0', "tech design": '0', "music arts": '0', "preproffesional": '0.2', "publications": '0', "activism service": '0.1', "hours": '0', "selectivity": '0', "size": '0'}
+	#testVector = {"active": '0.2', "governing": '0', "tech design": '07', "music arts": '0', "preproffesional": '0', "publications": '0', "activism service": '0.1', "hours": '0', "selectivity": '0', "size": '0'}
 
-	club = RegressionModel.optimize(db, clubcol, vector)
-	print(club)
+	clubLi = RegressionModel.optimize(db, clubcol, vector)
+	print(clubLi)
 
-	return jsonify(club)
+	return jsonify(clubLi)
 
 # Ishaan - this is what you need to call. If you run the server and make a POST call to this route, then it adds the payload to the MongoDB backend
 '''Sample POST payload call:

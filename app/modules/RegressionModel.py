@@ -23,8 +23,8 @@ in vector format:
 def optimize(db, col, input_vector):
     clubLi = MongoHelper.DB_fetch_clubs(db, col) #get club list
 
-    returnClub = {}
-    lowestError = 1000
+    returnClubLi = []
+    lowestError = {1000,1000,1000,1000,1000}
 
 
     for club in clubLi:
@@ -40,11 +40,13 @@ def optimize(db, col, input_vector):
                 sum += abs(personVectVal - clubVectVal)**2
         
         error = math.sqrt(sum)
-        if error < lowestError:
-            lowestError = error
-            returnClub = club
 
-    return returnClub
+        if error < max(lowestError):
+            lowestError.remove(max(lowestError))
+            lowestError.add(error)
+            returnClubLi.append(club)
+            
+    return returnClubLi
         
 
 
