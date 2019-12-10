@@ -34,7 +34,22 @@ def login():
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
-	return True
+	post_data = request.get_json()
+	email = post_data["email"]
+	password = post_data["password"]
+	hasher = hashlib.sha256()
+	hasher.update(password.encode('utf8'))
+	password = hasher.digest()
+	vector=post_data["vector"]
+	statusCode = "3"
+
+	resultJson = MongoHelper.DB_register_user(db, usercol, id, email, password, vector, statusCode)
+#Need to get vector in dict format from Aum, if not possible create by hand here
+#how is id defined
+
+	print(resultJson)
+
+	return resultJson
 
 @app.route("/api/fetchAllClubs", methods=["GET"])
 def fetch_all_clubs():
@@ -68,6 +83,19 @@ def fetch_curated_clubs():
     "description": "Description here",
     "website": "https://www.columbiadpi.com/",
     "logo": "https://images.squarespace-cdn.com/content/5d683b6a3f805a000151f7cf/1567126137978-ZRN06BNEQLUIWTE31JSJ/CDPI+logo+large.png?content-type=image%2Fpng"
+	"vector":{
+			"active": 0.0,
+			"governing body": 0.0,
+			"tech design": 0.0,
+			"music arts": 0.0,
+			"governing":0.0,
+			"preproffesional": 0.0;
+			"publications": 0.0,
+			"activism service": 0.0,
+			"hours": 0.0,
+			"selectivity": 0.0,
+			"size": 0.0,
+		}
 	}
 }
 '''

@@ -53,16 +53,17 @@ def DB_login_user(db, col, email, password, statusCode):
             if password == y:
                 statusCode = "0" # success
                 result = 1
+                userVect= x['vector']
             else:
                 statusCode = "1"# wrong pass
         break
 
-    resultJson = jsonify({"valid" : result, "status":statusCode, 'id':id_save})
+    resultJson = jsonify({"valid" : result, "status":statusCode, 'id':id_save, "vector":userVect})
 
     return resultJson
 
 #register user to database
-def DB_register_user(db, col, id, email, password, address, bbl, statusCode):
+def DB_register_user(db, usercol, id, email, password, vector , statusCode):
     result = 0
     statusCode = "0"
     #Connect to DB and insert, and then change the values of result and status code accordingly
@@ -79,11 +80,11 @@ def DB_register_user(db, col, id, email, password, address, bbl, statusCode):
             return resultJson
 
     result = 1
-    emailList = [email]
-    col.insert_one({'email': email, 'password': password, 'address': address, 'id': id, 'bbl':bbl})
+    #emailList = [email]
+    col.insert_one({'email': email, 'password': password, 'id': id, 'vector': vector})
     print("user inserted into database")
     #test sendgrind
-    Communications.send_email(key, emailList, 'Successful Registration', 'Thank you for signing up to HousingAlertNYC!')
+    #Communications.send_email(key, emailList, 'Successful Registration', 'Thank you for signing up to HousingAlertNYC!')
 
     resultJson = jsonify({"valid" : result, "status" : statusCode})
     return resultJson
