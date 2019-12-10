@@ -62,14 +62,14 @@ def DB_login_user(db, col, email, password, statusCode):
     return resultJson
 
 #register user to database
-def DB_register_user(db, col, id, email, password, address, bbl, statusCode):
+def DB_register_user(db, usercol, id, email, password, vector, statusCode):
     result = 0
     statusCode = "0"
     #Connect to DB and insert, and then change the values of result and status code accordingly
 
     # Status code == 1 implies that an id with that email already exists
     print(email)
-    cursor = col.find({'email': email})
+    cursor = usercol.find({'email': email})
     for x in cursor:
         print("iterating through cursor")
         if x:
@@ -80,7 +80,7 @@ def DB_register_user(db, col, id, email, password, address, bbl, statusCode):
 
     result = 1
     emailList = [email]
-    col.insert_one({'email': email, 'password': password, 'address': address, 'id': id, 'bbl':bbl})
+    usercol.insert_one({'email': email, 'password': password, 'address': address, 'id': id, 'bbl':bbl})
     print("user inserted into database")
     #test sendgrind
     Communications.send_email(key, emailList, 'Successful Registration', 'Thank you for signing up to HousingAlertNYC!')
