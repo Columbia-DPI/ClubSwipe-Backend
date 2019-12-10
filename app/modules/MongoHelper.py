@@ -97,6 +97,10 @@ def DB_insert_club(db, col, club_dict):
 def DB_fetch_clubs(db, col, parameter={}):
     cursor = col.find(parameter)
     result = []
+    params = ["name", "email", "description", "website", "vector"]
     for document in cursor:
-        result.append(document)
+        new_doc = {}
+        for param in params:
+            new_doc[param] = document[param]
+        result.append(new_doc)
     return result

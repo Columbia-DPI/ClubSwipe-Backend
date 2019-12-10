@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 from .modules import MongoHelper
 from .modules import RegressionModel
 
@@ -71,12 +71,7 @@ def signup():
 @app.route("/api/fetchAllClubs", methods=["GET"])
 def fetch_all_clubs():
 	payload = MongoHelper.DB_fetch_clubs(db, clubcol)
-	#print(payload)
-	# theDict={}
-	# for i in range(len(payload)):
-	# 	theDict[i]=payload[i]
-	print(payload)
-	return jsonify({"a test": "yes"})
+	return json.dumps({"clubs": payload})
 
 @app.route("/api/searchClubs", methods=["POST"])
 def search_clubs():
@@ -100,13 +95,7 @@ def fetch_curated_clubs():
 
 	clubLi = RegressionModel.optimize(db, clubcol, testVector)
 
-	# theDict={}
-	# for i in range(len(clubLi)):
-	# 	theDict[i]=clubLi[i]
-	print(clubLi)
-	#return jsonify(clubLi)
-
-	return jsonify({"a test": "yes"})
+	return json.dumps({"test": clubLi})
 
 # Ishaan - this is what you need to call. If you run the server and make a POST call to this route, then it adds the payload to the MongoDB backend
 '''Sample POST payload call:
