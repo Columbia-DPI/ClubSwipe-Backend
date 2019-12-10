@@ -58,19 +58,19 @@ def DB_login_user(db, col, email, password, statusCode):
                 statusCode = "1"# wrong pass
         break
 
-    resultJson = jsonify({"valid" : result, "status":statusCode, 'id':id_save, "vector":userVect})
+    results = {"valid" : result, "status":statusCode, "id": id_save, "email": emailList[0] , "vector":userVect}
 
-    return resultJson
+    return results
 
 #register user to database
-def DB_register_user(db, usercol, id, email, password, vector , statusCode):
+def DB_register_user(db, usercol, id, email, password, vector, statusCode):
     result = 0
     statusCode = "0"
     #Connect to DB and insert, and then change the values of result and status code accordingly
 
     # Status code == 1 implies that an id with that email already exists
     print(email)
-    cursor = col.find({'email': email})
+    cursor = usercol.find({'email': email})
     for x in cursor:
         print("iterating through cursor")
         if x:
@@ -86,8 +86,8 @@ def DB_register_user(db, usercol, id, email, password, vector , statusCode):
     #test sendgrind
     #Communications.send_email(key, emailList, 'Successful Registration', 'Thank you for signing up to HousingAlertNYC!')
 
-    resultJson = jsonify({"valid" : result, "status" : statusCode})
-    return resultJson
+    results = {"valid" : result, "status" : statusCode}
+    return results
 
 def DB_insert_club(db, col, club_dict):
     #Connect to DB and insert, and then change the values of result and status code accordingly
